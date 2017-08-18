@@ -54,4 +54,5 @@ func DetectText(file, object string) {
 		fmt.Println("Text:", tr)
 		TextRecoChan <- tr
 	}
+	client.Close()
 }

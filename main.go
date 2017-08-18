@@ -8,8 +8,24 @@ import (
 	"os"
 	"os/signal"
 	"gitlab.intelligrape.net/tothenew/vision/services"
-	"strings"
+	"time"
+	"math/rand"
 )
+
+var r *rand.Rand // Rand for this package.
+
+func init() {
+	r = rand.New(rand.NewSource(time.Now().UnixNano()))
+}
+
+func RandomString(strlen int) string {
+	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+	result := make([]byte, strlen)
+	for i := range result {
+		result[i] = chars[r.Intn(len(chars))]
+	}
+	return string(result)
+}
 
 func main() {
 	watcher()
@@ -27,10 +43,10 @@ func watcher() {
 		for {
 			select {
 			case ev := <-watcher.Event:
-				log.Println("Event received : ", ev.String())
 				go func() {
-					if ev.IsCreate() {
-						name := ev.Name[strings.LastIndex(ev.Name, "/")+1:]
+					if ev.IsCreate() || ev.IsModify() {
+						log.Println("Event received : ", ev.String())
+						name := RandomString(50)
 						services.DetectText(ev.Name, name)
 					}
 				}()
