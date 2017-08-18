@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/signal"
 	"gitlab.intelligrape.net/tothenew/vision/services"
+	"strings"
 )
 
 func main() {
@@ -26,10 +27,11 @@ func watcher() {
 		for {
 			select {
 			case ev := <-watcher.Event:
-				log.Println("Event received : ", ev)
+				log.Println("Event received : ", ev.String())
 				go func() {
 					if ev.IsCreate() {
-						services.DetectText(ev.Name)
+						name := ev.Name[strings.LastIndex(ev.Name, "/")+1:]
+						services.DetectText(ev.Name, name)
 					}
 				}()
 			case err := <-watcher.Error:
@@ -38,7 +40,7 @@ func watcher() {
 		}
 	}()
 
-	err = watcher.Watch("/home/vikram/Desktop/img")
+	err = watcher.Watch("/home/infra/ftp/20170818/images")
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -8,7 +8,17 @@ import (
 	"fmt"
 )
 
-func DetectText(file string) {
+type TextReco struct {
+	Url  string
+	Text string
+}
+
+var TextRecoChan chan TextReco = make(chan TextReco, 10)
+
+func DetectText(file, object string) {
+	var url string
+	var text string = ""
+	url = SaveToCloudStorage(file, object)
 	ctx := context.Background()
 
 	client, err := vision.NewImageAnnotatorClient(ctx)
@@ -34,9 +44,14 @@ func DetectText(file string) {
 	if len(annotations) == 0 {
 		fmt.Println("No text found.")
 	} else {
-		fmt.Println("Text:")
 		for _, annotation := range annotations {
-			fmt.Printf(annotation.Description)
+			text += annotation.Description + "<br />"
 		}
+		tr := TextReco{
+			Url:  url,
+			Text: text,
+		}
+		fmt.Println("Text:", tr)
+		TextRecoChan <- tr
 	}
 }
