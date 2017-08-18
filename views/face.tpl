@@ -50,13 +50,13 @@
             </div>
 
             <ul class="nav">
-                <li class="active">
+                <li>
                     <a href="/">
                         <i class="ti-panel"></i>
                         <p>Text Detection</p>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="/faceDetection">
                         <i class="ti-panel"></i>
                         <p>Face Recognition</p>
