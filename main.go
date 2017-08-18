@@ -3,48 +3,51 @@ package main
 import (
 	_ "gitlab.intelligrape.net/tothenew/vision/routers"
 	"github.com/astaxie/beego"
-
-	vision "cloud.google.com/go/vision/apiv1"
-	"golang.org/x/net/context"
-
+	"github.com/howeyc/fsnotify"
+	"log"
 	"os"
-	"fmt"
+	"os/signal"
+	"gitlab.intelligrape.net/tothenew/vision/services"
 )
 
 func main() {
+	watcher()
 	beego.Run()
-	detectText("/home/vikram/Desktop/img/1.jpg")
 }
 
-func detectText(file string) {
-	ctx := context.Background()
-
-	client, err := vision.NewImageAnnotatorClient(ctx)
+func watcher() {
+	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
-	f, err := os.Open(file)
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer f.Close()
-
-	image, err := vision.NewImageFromReader(f)
-	if err != nil {
-		fmt.Println(err)
-	}
-	annotations, err := client.DetectTexts(ctx, image, nil, 10)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	if len(annotations) == 0 {
-		fmt.Println("No text found.")
-	} else {
-		fmt.Println("Text:")
-		for _, annotation := range annotations {
-			fmt.Printf(annotation.Description)
+	// Process events
+	go func() {
+		for {
+			select {
+			case ev := <-watcher.Event:
+				log.Println("Event received : ", ev)
+				go func() {
+					if ev.IsCreate() {
+						services.DetectText(ev.Name)
+					}
+				}()
+			case err := <-watcher.Error:
+				log.Println("Error while listening to event ", err)
+			}
 		}
+	}()
+
+	err = watcher.Watch("/home/vikram/Desktop/img")
+	if err != nil {
+		log.Fatal(err)
 	}
+
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	go func() {
+		<-c
+		watcher.Close()
+		os.Exit(0)
+	}()
 }
