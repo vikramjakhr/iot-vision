@@ -76,7 +76,7 @@ func IndexFacesByBytes(collName string, bts []byte) *rekognition.IndexFacesOutpu
 	return resp
 }
 
-func SearchFaces(collName string, bts []byte) []string {
+func SearchFaces(collName string, bts []byte, face chan<- []string) {
 	var s []string = []string{}
 	client := rekognition.New(getSession())
 	image := &rekognition.Image{
@@ -99,5 +99,5 @@ func SearchFaces(collName string, bts []byte) []string {
 	} else {
 		fmt.Println(err)
 	}
-	return s
+	face <- s
 }

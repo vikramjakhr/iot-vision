@@ -10,6 +10,7 @@ import (
 	"gitlab.intelligrape.net/tothenew/vision/services"
 	"time"
 	"math/rand"
+	"flag"
 )
 
 var r *rand.Rand // Rand for this package.
@@ -28,11 +29,13 @@ func RandomString(strlen int) string {
 }
 
 func main() {
-	watcher()
+	path := flag.String("path", "/home/infra/ftp/20170818/images", "path to watch")
+	flag.Parse()
+	watcher(path)
 	beego.Run()
 }
 
-func watcher() {
+func watcher(path *string) {
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
 		log.Fatal(err)
@@ -57,8 +60,7 @@ func watcher() {
 		}
 	}()
 
-	//err = watcher.Watch("/home/infra/ftp/20170818/images")
-	err = watcher.Watch("/home/vikram/Desktop/img")
+	err = watcher.Watch(*path)
 	if err != nil {
 		log.Fatal(err)
 	}
