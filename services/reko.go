@@ -57,3 +57,27 @@ func IndexFaces(collName, imgName string) *rekognition.IndexFacesOutput {
 	}
 	return resp
 }
+
+func SearchFaces(collName string, bts []byte) []string {
+	var s []string
+	client := rekognition.New(getSession())
+	image := &rekognition.Image{
+		Bytes: bts,
+	}
+	fmt.Println(len(bts))
+	input := &rekognition.SearchFacesByImageInput{
+		CollectionId: &collName,
+		Image:        image,
+	}
+	req, resp := client.SearchFacesByImageRequest(input)
+	err := req.Send()
+	if err == nil {
+		fmt.Println(resp)
+	} else {
+		fmt.Println(err)
+	}
+	for _, face := range resp.FaceMatches {
+		s = append(s, "https://s3.amazonaws.com/ttn-aws-iot/" + *face.Face.FaceId+".jpg")
+	}
+	return s
+}

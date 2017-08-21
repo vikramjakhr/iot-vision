@@ -9,16 +9,16 @@ import (
 )
 
 type TextReco struct {
-	Url        string
-	Text       string
-	MatchedUrl string
+	Url         string
+	Text        string
+	MatchedUrls []string
 }
 
 var TextRecoChan chan TextReco = make(chan TextReco, 10)
 
-func DetectText(file, object string) {
+func Process(file, object string) {
 	var url string
-	var text string = ""
+	var text string = "No text found"
 	url = SaveToCloudStorage(file, object)
 	ctx := context.Background()
 
@@ -37,24 +37,25 @@ func DetectText(file, object string) {
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	MatchedUrls := SearchFaces("mycollection", image.Content)
+
 	annotations, err := client.DetectTexts(ctx, image, nil, 10)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	if len(annotations) == 0 {
-		fmt.Println("No text found.")
-	} else {
+	tr := TextReco{
+		Url:         url,
+		Text:        text,
+		MatchedUrls: MatchedUrls,
+	}
+	if len(annotations) != 0 {
 		for _, annotation := range annotations {
 			text += annotation.Description + "<br />"
 		}
-		tr := TextReco{
-			Url:        url,
-			Text:       text,
-			MatchedUrl: url,
-		}
-		fmt.Println("Text:", tr)
-		TextRecoChan <- tr
+		tr.Text = text
 	}
+	TextRecoChan <- tr
 	client.Close()
 }

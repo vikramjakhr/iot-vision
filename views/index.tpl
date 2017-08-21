@@ -179,14 +179,17 @@
                         '</p> \
                         </div> \
                         </div> \
-                        </div> \
-                        <div class="col-lg-6 col-md-6"> \
+                        </div>';
+                    data.MatchedUrls.forEach(function (item) {
+                        html += '<div class="col-lg-6 col-md-6"> \
                             <div class="card card-user" style="height: auto !important;"> \
                             <div class="image" style="height: auto !important;"> \
-                        <img src="' + data.MatchedUrl + '" alt="..."/> \
+                        <img src="' + item + '" alt="..."/> \
                         </div> \
                         </div> \
                         </div>'
+                    });
+
                 }
                 $("#data").append(html);
             }

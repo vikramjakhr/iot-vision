@@ -48,7 +48,7 @@ func watcher() {
 					if ev.IsCreate() {
 						log.Println("Event received : ", ev.String())
 						name := RandomString(50)
-						services.DetectText(ev.Name, name)
+						services.Process(ev.Name, name)
 					}
 				}()
 			case err := <-watcher.Error:
