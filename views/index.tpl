@@ -53,13 +53,7 @@
                 <li class="active">
                     <a href="/">
                         <i class="ti-panel"></i>
-                        <p>Text Detection</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="/faceDetection">
-                        <i class="ti-panel"></i>
-                        <p>Face Recognition</p>
+                        <p>Text & Face Detection</p>
                     </a>
                 </li>
             </ul>
@@ -85,17 +79,30 @@
         <div class="content">
             <div class="container-fluid">
                 <div id="data" class="row">
-                    <!--<div class="col-lg-9 col-md-9">
+                    <!--<div class="col-lg-12 col-md-12">
                         <div class="card card-user" style="height: auto !important;">
                             <div class="image" style="height: auto !important;">
-                                <img src="https://storage.googleapis.com/ioi-vision/NUMBER-PLATE-INDIA.jpg" alt="..."/>
+                                <img src="https://qph.ec.quoracdn.net/main-qimg-f93403f6d32bc43b40d85bd978e88bbf"
+                                     alt="..."/>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card card-user" style="height: auto !important;">
                             <div class="content">
                                 <p class="description text-center">
                                     "I like the way you work it <br>
                                     No diggity <br>
                                     I wanna bag it up"
                                 </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card card-user" style="height: auto !important;">
+                            <div class="image" style="height: auto !important;">
+                                <img src="https://qph.ec.quoracdn.net/main-qimg-f93403f6d32bc43b40d85bd978e88bbf"
+                                     alt="..."/>
                             </div>
                         </div>
                     </div>-->
@@ -157,13 +164,26 @@
             success: function (data, status) {
                 if (data.Url !== "") {
                     var html = "";
-                    html += '<div class="col-lg-9 col-md-9"> \
+                    html += '<div class="col-lg-12 col-md-12"> \
+                        <div class="card card-user" style="height: auto !important;"> \
+                        <div class="image" style="height: auto !important;"> \
+                        <img src="' + data.Url + '" alt="..."/> \
+                        </div> \
+                        </div> \
+                        </div> \
+                        <div class="col-lg-6 col-md-6"> \
+                        <div class="card card-user" style="height: auto !important;"> \
+                        <div class="content"> \
+                        <p class="description text-center">' + data.Text +
+
+                        '</p> \
+                        </div> \
+                        </div> \
+                        </div> \
+                        <div class="col-lg-6 col-md-6"> \
                             <div class="card card-user" style="height: auto !important;"> \
                             <div class="image" style="height: auto !important;"> \
-                            <img src="' + data.Url + '" alt="..."/> \
-                            </div> \
-                            <div class="content"> \
-                            <p class="description text-center">' + data.Text + '</p> \
+                        <img src="' + data.MatchedUrl + '" alt="..."/> \
                         </div> \
                         </div> \
                         </div>'

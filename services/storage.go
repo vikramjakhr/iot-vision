@@ -32,14 +32,6 @@ func write(client *storage.Client, bucket, file, object string) string {
 	}
 	defer f.Close()
 
-	stat, err := f.Stat()
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println("###########################")
-	fmt.Println(stat.Size())
-	fmt.Println("###########################")
-
 	wc := client.Bucket(bucket).Object(object).NewWriter(ctx)
 	if _, err = io.Copy(wc, f); err != nil {
 		fmt.Println("##################### Error while copying ")

@@ -9,8 +9,9 @@ import (
 )
 
 type TextReco struct {
-	Url  string
-	Text string
+	Url        string
+	Text       string
+	MatchedUrl string
 }
 
 var TextRecoChan chan TextReco = make(chan TextReco, 10)
@@ -48,8 +49,9 @@ func DetectText(file, object string) {
 			text += annotation.Description + "<br />"
 		}
 		tr := TextReco{
-			Url:  url,
-			Text: text,
+			Url:        url,
+			Text:       text,
+			MatchedUrl: url,
 		}
 		fmt.Println("Text:", tr)
 		TextRecoChan <- tr

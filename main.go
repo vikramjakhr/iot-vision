@@ -56,7 +56,8 @@ func watcher() {
 		}
 	}()
 
-	err = watcher.Watch("/home/infra/ftp/20170818/images")
+	//err = watcher.Watch("/home/infra/ftp/20170818/images")
+	err = watcher.Watch("/home/vikram/Desktop/img")
 	if err != nil {
 		log.Fatal(err)
 	}
