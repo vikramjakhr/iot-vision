@@ -58,17 +58,37 @@ func IndexFaces(collName, imgName string) *rekognition.IndexFacesOutput {
 	return resp
 }
 
+func IndexFacesByBytes(collName string, bts []byte) *rekognition.IndexFacesOutput {
+	client := rekognition.New(getSession())
+	image := &rekognition.Image{
+		Bytes: bts,
+	}
+	input := &rekognition.IndexFacesInput{
+		CollectionId: &collName,
+		Image:        image,
+
+	}
+	req, resp := client.IndexFacesRequest(input)
+	err := req.Send()
+	if err == nil {
+		fmt.Println(resp)
+	}
+	return resp
+}
+
 func SearchFaces(collName string, bts []byte) []string {
 	var s []string = []string{}
 	client := rekognition.New(getSession())
 	image := &rekognition.Image{
 		Bytes: bts,
 	}
-	fmt.Println(len(bts))
+	max := int64(10);
 	input := &rekognition.SearchFacesByImageInput{
 		CollectionId: &collName,
 		Image:        image,
+		MaxFaces:     &max,
 	}
+
 	req, resp := client.SearchFacesByImageRequest(input)
 	err := req.Send()
 	if err == nil {
