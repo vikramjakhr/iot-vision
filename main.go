@@ -44,7 +44,8 @@ func watcher() {
 			select {
 			case ev := <-watcher.Event:
 				go func() {
-					if ev.IsCreate() || ev.IsModify() {
+					//if ev.IsCreate() || ev.IsModify() {
+					if ev.IsCreate() {
 						log.Println("Event received : ", ev.String())
 						name := RandomString(50)
 						services.DetectText(ev.Name, name)
