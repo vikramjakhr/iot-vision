@@ -29,8 +29,8 @@ func RandomString(strlen int) string {
 }
 
 func main() {
-	//path := flag.String("path", "/home/infra/ftp/20170821/images", "path to watch")
-	path := flag.String("path", "/home/vikram/Desktop/img", "path to watch")
+	path := flag.String("path", "/home/infra/ftp/20170821/images", "path to watch")
+	//path := flag.String("path", "/home/vikram/Desktop/img", "path to watch")
 	flag.Parse()
 	watcher(path)
 	beego.Run()
