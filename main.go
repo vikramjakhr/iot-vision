@@ -29,7 +29,7 @@ func RandomString(strlen int) string {
 }
 
 func main() {
-	path := flag.String("path", "/home/infra/ftp/20170818/images", "path to watch")
+	path := flag.String("path", "/home/infra/ftp/20170821/images", "path to watch")
 	flag.Parse()
 	watcher(path)
 	beego.Run()
@@ -47,10 +47,11 @@ func watcher(path *string) {
 			select {
 			case ev := <-watcher.Event:
 				go func() {
-					//if ev.IsCreate() || ev.IsModify() {
+					log.Println("Event received : ", ev.String())
 					if ev.IsCreate() {
-						log.Println("Event received : ", ev.String())
-						name := RandomString(50)
+						//name := RandomString(50)
+						time.Sleep(time.Second * 2)
+						name := ev.Name
 						services.Process(ev.Name, name)
 					}
 				}()
