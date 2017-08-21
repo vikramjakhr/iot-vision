@@ -35,6 +35,19 @@ func CreateCollection(name string) *rekognition.CreateCollectionOutput {
 	return resp
 }
 
+func DeleteCollection(name string) *rekognition.DeleteCollectionOutput {
+	client := rekognition.New(getSession())
+	input := &rekognition.DeleteCollectionInput{
+		CollectionId: &name,
+	}
+	req, resp := client.DeleteCollectionRequest(input)
+	err := req.Send()
+	if err == nil {
+		fmt.Println(resp)
+	}
+	return resp
+}
+
 func IndexFaces(collName, imgName string) *rekognition.IndexFacesOutput {
 	client := rekognition.New(getSession())
 	bucket := "ttn-aws-iot"
@@ -44,24 +57,6 @@ func IndexFaces(collName, imgName string) *rekognition.IndexFacesOutput {
 	}
 	image := &rekognition.Image{
 		S3Object: s3Object,
-	}
-	input := &rekognition.IndexFacesInput{
-		CollectionId: &collName,
-		Image:        image,
-
-	}
-	req, resp := client.IndexFacesRequest(input)
-	err := req.Send()
-	if err == nil {
-		fmt.Println(resp)
-	}
-	return resp
-}
-
-func IndexFacesByBytes(collName string, bts []byte) *rekognition.IndexFacesOutput {
-	client := rekognition.New(getSession())
-	image := &rekognition.Image{
-		Bytes: bts,
 	}
 	input := &rekognition.IndexFacesInput{
 		CollectionId: &collName,

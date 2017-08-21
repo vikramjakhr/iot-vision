@@ -18,6 +18,10 @@ type CreateCollectionController struct {
 	beego.Controller
 }
 
+type DeleteCollectionController struct {
+	beego.Controller
+}
+
 type IndexFaceController struct {
 	beego.Controller
 }
@@ -51,6 +55,12 @@ func (c *TextRecoChanController) Get() {
 func (c *CreateCollectionController) Get() {
 	name := c.GetString("collection")
 	c.Data["json"] = services.CreateCollection(name)
+	c.ServeJSON();
+}
+
+func (c *DeleteCollectionController) Get() {
+	name := c.GetString("collection")
+	c.Data["json"] = services.DeleteCollection(name)
 	c.ServeJSON();
 }
 
