@@ -18,6 +18,10 @@ type CreateCollectionController struct {
 	beego.Controller
 }
 
+type IndexFaceController struct {
+	beego.Controller
+}
+
 type TextRecoChanController struct {
 	beego.Controller
 }
@@ -45,7 +49,14 @@ func (c *TextRecoChanController) Get() {
 }
 
 func (c *CreateCollectionController) Get() {
-	name := c.GetString("name")
+	name := c.GetString("collection")
 	c.Data["json"] = services.CreateCollection(name)
+	c.ServeJSON();
+}
+
+func (c *IndexFaceController) Get() {
+	collName := c.GetString("collection")
+	img := c.GetString("image")
+	c.Data["json"] = services.IndexFaces(collName, img)
 	c.ServeJSON();
 }
