@@ -47,10 +47,10 @@ func watcher(path *string) {
 			select {
 			case ev := <-watcher.Event:
 				go func() {
-					log.Println("Event received : ", ev.String())
 					if ev.IsCreate() {
+					log.Println("Event received : ", ev.String())
 						//name := RandomString(50)
-						time.Sleep(time.Second * 2)
+						time.Sleep(time.Second * 3)
 						name := ev.Name
 						services.Process(ev.Name, name)
 					}
