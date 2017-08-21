@@ -9,4 +9,5 @@ func init() {
 	beego.Router("/", &controllers.MainController{})
 	beego.Router("/faceDetection", &controllers.FaceDetectionController{})
 	beego.Router("/textReco", &controllers.TextRecoChanController{})
+	beego.Router("/createCollection", &controllers.CreateCollectionController{})
 }

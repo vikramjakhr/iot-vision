@@ -14,6 +14,10 @@ type FaceDetectionController struct {
 	beego.Controller
 }
 
+type CreateCollectionController struct {
+	beego.Controller
+}
+
 type TextRecoChanController struct {
 	beego.Controller
 }
@@ -37,5 +41,11 @@ func (c *TextRecoChanController) Get() {
 	default:
 		c.Data["json"] = services.TextReco{}
 	}
+	c.ServeJSON();
+}
+
+func (c *CreateCollectionController) Get() {
+	name := c.GetString("name")
+	c.Data["json"] = services.CreateCollection(name)
 	c.ServeJSON();
 }
