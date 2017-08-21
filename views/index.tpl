@@ -180,15 +180,26 @@
                         </div> \
                         </div> \
                         </div>';
-                    data.MatchedUrls.forEach(function (item) {
-                        html += '<div class="col-lg-6 col-md-6"> \
+                    if (data.MatchedUrls.length > 0) {
+                        data.MatchedUrls.forEach(function (item) {
+                            html += '<div class="col-lg-6 col-md-6"> \
                             <div class="card card-user" style="height: auto !important;"> \
                             <div class="image" style="height: auto !important;"> \
                         <img src="' + item + '" alt="..."/> \
                         </div> \
                         </div> \
                         </div>'
-                    });
+                        });
+                    } else {
+                        html += '<div class="col-lg-6 col-md-6"> \
+                    <div class="card card-user" style="height: auto !important;"> \
+                    <div class="content"> \
+                    <p class="description text-center">' + "No Image matched" +
+                            '</p> \
+                            </div> \
+                            </div> \
+                            </div>';
+                    }
 
                 }
                 $("#data").append(html);

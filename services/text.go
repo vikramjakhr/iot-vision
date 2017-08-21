@@ -51,11 +51,15 @@ func Process(file, object string) {
 		MatchedUrls: MatchedUrls,
 	}
 	if len(annotations) != 0 {
+		text = ""
 		for _, annotation := range annotations {
 			text += annotation.Description + "<br />"
 		}
 		tr.Text = text
 	}
+	fmt.Println("##################")
+	fmt.Println(tr)
+	fmt.Println("##################")
 	TextRecoChan <- tr
 	client.Close()
 }
