@@ -79,33 +79,33 @@
         <div class="content">
             <div id="data" class="container-fluid">
                 <!--<div class="row">-->
-                    <!--<div class="col-lg-12 col-md-12">
-                        <div class="card card-user" style="height: auto !important;">
-                            <div class="image" style="height: auto !important;">
-                                <img src="https://qph.ec.quoracdn.net/main-qimg-f93403f6d32bc43b40d85bd978e88bbf"
-                                     alt="..."/>
-                            </div>
+                <!--<div class="col-lg-12 col-md-12">
+                    <div class="card card-user" style="height: auto !important;">
+                        <div class="image" style="height: auto !important;">
+                            <img src="https://qph.ec.quoracdn.net/main-qimg-f93403f6d32bc43b40d85bd978e88bbf"
+                                 alt="..."/>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="card card-user" style="height: auto !important;">
-                            <div class="content">
-                                <p class="description text-center">
-                                    "I like the way you work it <br>
-                                    No diggity <br>
-                                    I wanna bag it up"
-                                </p>
-                            </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="card card-user" style="height: auto !important;">
+                        <div class="content">
+                            <p class="description text-center">
+                                "I like the way you work it <br>
+                                No diggity <br>
+                                I wanna bag it up"
+                            </p>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="card card-user" style="height: auto !important;">
-                            <div class="image" style="height: auto !important;">
-                                <img src="https://qph.ec.quoracdn.net/main-qimg-f93403f6d32bc43b40d85bd978e88bbf"
-                                     alt="..."/>
-                            </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="card card-user" style="height: auto !important;">
+                        <div class="image" style="height: auto !important;">
+                            <img src="https://qph.ec.quoracdn.net/main-qimg-f93403f6d32bc43b40d85bd978e88bbf"
+                                 alt="..."/>
                         </div>
-                    </div>-->
+                    </div>
+                </div>-->
                 <!--</div>-->
             </div>
         </div>
@@ -180,12 +180,16 @@
                         </div> \
                         </div> \
                         </div>';
-                    if (data.MatchedUrls.length > 0) {
-                        data.MatchedUrls.forEach(function (item) {
+                    if (data.FaceInfoList.length > 0) {
+                        data.FaceInfoList.forEach(function (item) {
                             html += '<div class="col-lg-6 col-md-6"> \
                             <div class="card card-user" style="height: auto !important;"> \
                             <div class="image" style="height: auto !important;"> \
-                        <img src="' + item + '" alt="..."/> \
+                        <img src="' + item.Url + '" alt="..."/> \
+                        </div> \
+                        <div class="content" style="min-height: auto"> \
+                        <p class="description"><b>Confidence:&nbsp;&nbsp;</b>' + item.Confidence + '</p> \
+                        <p class="description"><b>Similarity:&nbsp;&nbsp; </b>' + item.Similarity + '</p> \
                         </div> \
                         </div> \
                         </div>'

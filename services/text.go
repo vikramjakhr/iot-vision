@@ -9,16 +9,16 @@ import (
 )
 
 type TextReco struct {
-	Url         string
-	Text        string
-	MatchedUrls []string
+	Url          string
+	Text         string
+	FaceInfoList []FaceInfo
 }
 
 var TextRecoChan chan TextReco = make(chan TextReco, 10)
 
 func Process(file, object string) {
 	var text string = "No text found"
-	face := make(chan []string)
+	face := make(chan []FaceInfo)
 	url := make(chan string)
 	go func() {
 		SaveToCloudStorage(file, object, url)
@@ -57,9 +57,9 @@ func Process(file, object string) {
 		}
 	}
 	tr := TextReco{
-		Url:         <-url,
-		Text:        text,
-		MatchedUrls: <-face,
+		Url:          <-url,
+		Text:         text,
+		FaceInfoList: <-face,
 	}
 	close(face)
 	close(url)

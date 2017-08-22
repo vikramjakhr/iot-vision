@@ -10,6 +10,12 @@ import (
 	"fmt"
 )
 
+type FaceInfo struct {
+	Similarity float64
+	Confidence float64
+	Url        string
+}
+
 func getSession() *session.Session {
 	sess, err := session.NewSession(&aws.Config{
 		Region:      aws.String("us-east-1"),
@@ -71,8 +77,8 @@ func IndexFaces(collName, imgName string) *rekognition.IndexFacesOutput {
 	return resp
 }
 
-func SearchFaces(collName string, bts []byte, face chan<- []string) {
-	var s []string = []string{}
+func SearchFaces(collName string, bts []byte, face chan<- []FaceInfo) {
+	var info []FaceInfo = []FaceInfo{}
 	client := rekognition.New(getSession())
 	image := &rekognition.Image{
 		Bytes: bts,
@@ -89,10 +95,15 @@ func SearchFaces(collName string, bts []byte, face chan<- []string) {
 	if err == nil {
 		fmt.Println(resp)
 		for _, face := range resp.FaceMatches {
-			s = append(s, "https://s3.amazonaws.com/ttn-aws-iot/" + *face.Face.FaceId+".jpg")
+			fi := FaceInfo{
+				Url:        "https://s3.amazonaws.com/ttn-aws-iot/" + *face.Face.FaceId + ".jpg",
+				Confidence: *face.Face.Confidence,
+				Similarity: *face.Similarity,
+			}
+			info = append(info, fi)
 		}
 	} else {
 		fmt.Println(err)
 	}
-	face <- s
+	face <- info
 }
