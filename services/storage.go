@@ -10,7 +10,7 @@ import (
 	"fmt"
 )
 
-func SaveToCloudStorage(file, object string) string {
+func SaveToCloudStorage(file, object string, url chan<- string) {
 	ctx := context.Background()
 
 	// Creates a client.
@@ -19,7 +19,7 @@ func SaveToCloudStorage(file, object string) string {
 		log.Fatalf("Failed to create client: %v", err)
 	}
 
-	return write(client, "ioi-vision", file, object)
+	url <- write(client, "ioi-vision", file, object)
 }
 
 func write(client *storage.Client, bucket, file, object string) string {

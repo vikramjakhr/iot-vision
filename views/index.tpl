@@ -77,8 +77,8 @@
 
 
         <div class="content">
-            <div class="container-fluid">
-                <div id="data" class="row">
+            <div id="data" class="container-fluid">
+                <!--<div class="row">-->
                     <!--<div class="col-lg-12 col-md-12">
                         <div class="card card-user" style="height: auto !important;">
                             <div class="image" style="height: auto !important;">
@@ -106,7 +106,7 @@
                             </div>
                         </div>
                     </div>-->
-                </div>
+                <!--</div>-->
             </div>
         </div>
 
@@ -164,7 +164,7 @@
             success: function (data, status) {
                 if (data.Url !== "") {
                     var html = "";
-                    html += '<div class="col-lg-12 col-md-12"> \
+                    html += '<div class="row"> <div class="col-lg-12 col-md-12"> \
                         <div class="card card-user" style="height: auto !important;"> \
                         <div class="image" style="height: auto !important;"> \
                         <img src="' + data.Url + '" alt="..."/> \
@@ -200,6 +200,7 @@
                             </div> \
                             </div>';
                     }
+                    html += "</div>"
 
                 }
                 $("#data").append(html);

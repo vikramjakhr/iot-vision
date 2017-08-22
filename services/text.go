@@ -17,10 +17,12 @@ type TextReco struct {
 var TextRecoChan chan TextReco = make(chan TextReco, 10)
 
 func Process(file, object string) {
-	var url string
 	var text string = "No text found"
 	face := make(chan []string)
-	url = SaveToCloudStorage(file, object)
+	url := make(chan string)
+	go func() {
+		SaveToCloudStorage(file, object, url)
+	}()
 	ctx := context.Background()
 
 	client, err := vision.NewImageAnnotatorClient(ctx)
@@ -55,10 +57,12 @@ func Process(file, object string) {
 		}
 	}
 	tr := TextReco{
-		Url:         url,
+		Url:         <-url,
 		Text:        text,
 		MatchedUrls: <-face,
 	}
+	close(face)
+	close(url)
 	TextRecoChan <- tr
 	client.Close()
 }
