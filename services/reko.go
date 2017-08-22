@@ -103,6 +103,7 @@ func SearchFaces(collName string, bts []byte, face chan<- []FaceInfo) {
 				Similarity: *face.Similarity,
 			}
 			info = append(info, fi)
+			break
 		}
 	} else {
 		fmt.Println(err)
