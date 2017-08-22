@@ -66,7 +66,8 @@ func (c *DeleteCollectionController) Get() {
 
 func (c *IndexFaceController) Get() {
 	collName := c.GetString("collection")
+	imageId := c.GetString("imageId")
 	img := c.GetString("image")
-	c.Data["json"] = services.IndexFaces(collName, img)
+	c.Data["json"] = services.IndexFaces(collName, imageId, img)
 	c.ServeJSON();
 }

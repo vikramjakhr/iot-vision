@@ -54,7 +54,7 @@ func DeleteCollection(name string) *rekognition.DeleteCollectionOutput {
 	return resp
 }
 
-func IndexFaces(collName, imgName string) *rekognition.IndexFacesOutput {
+func IndexFaces(collName, imageId, imgName string) *rekognition.IndexFacesOutput {
 	client := rekognition.New(getSession())
 	bucket := "ttn-aws-iot"
 	s3Object := &rekognition.S3Object{
@@ -67,7 +67,9 @@ func IndexFaces(collName, imgName string) *rekognition.IndexFacesOutput {
 	input := &rekognition.IndexFacesInput{
 		CollectionId: &collName,
 		Image:        image,
-
+	}
+	if imageId != "" {
+		 input.ExternalImageId = &imageId
 	}
 	req, resp := client.IndexFacesRequest(input)
 	err := req.Send()
@@ -96,7 +98,7 @@ func SearchFaces(collName string, bts []byte, face chan<- []FaceInfo) {
 		fmt.Println(resp)
 		for _, face := range resp.FaceMatches {
 			fi := FaceInfo{
-				Url:        "https://s3.amazonaws.com/ttn-aws-iot/" + *face.Face.FaceId + ".jpg",
+				Url:        "https://s3.amazonaws.com/ttn-aws-iot/" + *face.Face.ExternalImageId + ".jpg",
 				Confidence: *face.Face.Confidence,
 				Similarity: *face.Similarity,
 			}
