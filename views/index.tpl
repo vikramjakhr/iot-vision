@@ -77,7 +77,7 @@
 
 
         <div class="content">
-            <div id="data" class="container-fluid">
+            <div id="data" class="container-fluid" style="width: 70%">
                 <!--<div class="row">-->
                 <!--<div class="col-lg-12 col-md-12">
                     <div class="card card-user" style="height: auto !important;">
