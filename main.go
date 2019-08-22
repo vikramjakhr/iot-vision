@@ -1,13 +1,13 @@
 package main
 
 import (
-	_ "gitlab.intelligrape.net/tothenew/vision/routers"
+	_ "gitlab.intelligrape.net/tothenew/iot-vision/routers"
 	"github.com/astaxie/beego"
 	"github.com/howeyc/fsnotify"
 	"log"
 	"os"
 	"os/signal"
-	"gitlab.intelligrape.net/tothenew/vision/services"
+	"gitlab.intelligrape.net/tothenew/iot-vision/services"
 	"time"
 	"math/rand"
 	"flag"

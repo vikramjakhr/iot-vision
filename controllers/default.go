@@ -3,7 +3,7 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 	"log"
-	"gitlab.intelligrape.net/tothenew/vision/services"
+	"gitlab.intelligrape.net/tothenew/iot-vision/services"
 )
 
 type MainController struct {

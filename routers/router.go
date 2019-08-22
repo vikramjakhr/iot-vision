@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"gitlab.intelligrape.net/tothenew/vision/controllers"
+	"gitlab.intelligrape.net/tothenew/iot-vision/controllers"
 	"github.com/astaxie/beego"
 )
 
